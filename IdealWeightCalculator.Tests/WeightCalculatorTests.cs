@@ -182,5 +182,17 @@ namespace IdealWeightCalculator.Tests
 
             names.Should().NotBeEmpty();
         }
+
+        [TestMethod]
+        public void GetIdealBodyWeightFromDataSource_WithGoodInputs_Returns_Correct_Results()
+        {
+            WeightCalculator weightCalculator = new WeightCalculator(new FakeWeightRepository());
+
+            List<double> actual = weightCalculator.GetIdealBodyWeightFromDataSource();
+            double[] expected = { 62.5, 62.75, 74};
+
+            actual.Should().BeEquivalentTo(expected);
+
+        }
     }
 }
