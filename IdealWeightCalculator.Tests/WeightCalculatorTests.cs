@@ -230,8 +230,6 @@ namespace IdealWeightCalculator.Tests
 
             IDataRepository repo = A.Fake<IDataRepository>();
 
-            // repo.Setup(w => w.GetWeights()).Returns(weights);
-
             A.CallTo(() => repo.GetWeights()).Returns(weights);
 
             WeightCalculator calculator = new WeightCalculator(repo);
@@ -241,6 +239,23 @@ namespace IdealWeightCalculator.Tests
             double[] expected = { 62.5, 62.75 };
 
             actual.Should().Equal(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(175, 'w', 62.5)]
+        [DataRow(167, 'm', 62.75)]
+        [DataRow(182, 'm', 74)]
+        public void WorkingWith_Data_Driven_Tests(double height, char sex, double expected)
+        {
+            WeightCalculator weightCalculator = new WeightCalculator
+            {
+                Height = height,
+                Sex = sex
+            };
+
+            var actual = weightCalculator.GetIdealBodyWeight();
+
+            actual.Should().Be(expected);
         }
 
     }
