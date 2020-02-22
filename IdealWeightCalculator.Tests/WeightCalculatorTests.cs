@@ -1,3 +1,4 @@
+using FakeItEasy;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -217,5 +218,30 @@ namespace IdealWeightCalculator.Tests
 
             actual.Should().Equal(expected);
         }
+
+        [TestMethod]
+        public void GetIdealBodyWeightFromDataSource_Using_FakeItEasy()
+        {
+            List<WeightCalculator> weights = new List<WeightCalculator>()
+            {
+                new WeightCalculator { Height = 175, Sex ='w' }, // 62.5
+                new WeightCalculator { Height = 167, Sex ='m' }, // 62.75
+            };
+
+            IDataRepository repo = A.Fake<IDataRepository>();
+
+            // repo.Setup(w => w.GetWeights()).Returns(weights);
+
+            A.CallTo(() => repo.GetWeights()).Returns(weights);
+
+            WeightCalculator calculator = new WeightCalculator(repo);
+
+            var actual = calculator.GetIdealBodyWeightFromDataSource();
+
+            double[] expected = { 62.5, 62.75 };
+
+            actual.Should().Equal(expected);
+        }
+
     }
 }
