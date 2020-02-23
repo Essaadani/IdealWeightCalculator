@@ -258,5 +258,31 @@ namespace IdealWeightCalculator.Tests
             actual.Should().Be(expected);
         }
 
+        public static List<object[]> TestCases()
+        {
+            return new List<object[]>
+            {
+                new object[] {175,'w', 62.5},
+                new object[]  {167,'m', 62.75},
+                new object[] {182,'m',74 }
+            };
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(TestCases), DynamicDataSourceType.Method)]
+        public void MyTestMethod(double height, char sex, double expected)
+        {
+            WeightCalculator weightCalculator = new WeightCalculator
+            {
+                Height = height,
+                Sex = sex
+            };
+
+            var actual = weightCalculator.GetIdealBodyWeight();
+
+            actual.Should().Be(expected);
+        }
+
+
     }
 }
