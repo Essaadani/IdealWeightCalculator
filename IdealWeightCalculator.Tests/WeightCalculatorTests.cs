@@ -283,6 +283,18 @@ namespace IdealWeightCalculator.Tests
             actual.Should().Be(expected);
         }
 
+        // TDD
+        [TestMethod]
+        public void Validate_With_BadSex_Returns_False()
+        {
+            WeightCalculator weightCalculator = new WeightCalculator();
+            weightCalculator.Sex = 't';
+
+            bool actual = weightCalculator.Validate();
+
+            actual.Should().BeFalse();
+        }
+
 
     }
 }
